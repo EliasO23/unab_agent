@@ -6,3 +6,9 @@ python-multipart==0.0.20
 pydantic==2.13.4
 pydantic-settings==2.14.2
 python-dotenv==1.1.1
+
+# --- LangChain / RAG ---
+langchain-community==0.4.2
+
+# --- Carga de documentos y embeddings ---
+pypdf==6.1.3
