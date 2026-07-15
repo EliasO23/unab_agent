@@ -7,9 +7,12 @@ contenedor en producción). Nunca se hardcodean API keys.
 """
 
 from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
+class Settings(BaseSettings):
 
-class Settings():
+    # --- Embeddings ---
+    embedding_model: str = "intfloat/multilingual-e5-small"
 
     # --- App ---
     app_host: str = "0.0.0.0"

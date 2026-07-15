@@ -1,6 +1,11 @@
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_experimental.text_splitter import SemanticChunker
+
+from app.config import get_settings
+
 def cargar_documentos(carpeta: Path):
     docs = []
     for archivo in carpeta.iterdir():
@@ -20,7 +25,16 @@ def cargar_documentos(carpeta: Path):
             continue
         docs.extend(loader.load())
     print(f"Total de páginas cargadas: {len(docs)}")
+    print(docs[4].page_content[:100])
     return docs
 
+def fragmentar(docs):
+    embeddings = HuggingFaceEmbeddings(model_name=get_settings().embedding_model)
+    chunks = SemanticChunker(embeddings).split_documents(docs)
+    print(f"Total de fragmentos: {len(chunks)}")
+    return chunks
+
 if __name__ == "__main__":
-    cargar_documentos(Path("documentos"))
+    documentos = cargar_documentos(Path("documentos"))
+    fragmentos = fragmentar(documentos)
+    print(fragmentos[8])
