@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     pinecone_host: str
     pinecone_index: str = "unab-rag-agent"
 
+    # --- Gemini (LLM de multiquery + respuesta final) ---
+    gemini_api_key: str
+    gemini_model: str = "gemini-2.5-flash"
+
     # --- Cohere ---
     cohere_api_key: str
     cohere_model: str = "command-a-03-2025"

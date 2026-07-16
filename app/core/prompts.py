@@ -38,6 +38,34 @@ Respuesta (una sola palabra):
 """
 )
 
+# ---------------------------------------------------------------------------
+# 2. Prompt de generación de sub-consultas para MultiQueryRetriever (Gemini)
+# ---------------------------------------------------------------------------
+MULTIQUERY_PROMPT = PromptTemplate.from_template(
+    """
+Eres un asistente especializado en reglamentos y documentación universitaria.
+
+Tu tarea es generar cinco consultas complementarias. Cada una debe explorar una perspectiva distinta de la pregunta original y
+evitar reformulaciones superficiales, para recuperar la mayor cantidad de información relevante de una base de datos vectorial.
+
+Considera generar consultas utilizando:
+
+- Sinónimos.
+- Lenguaje utilizado por estudiantes.
+- Lenguaje formal utilizado en reglamentos universitarios.
+- Términos administrativos.
+- Preguntas relacionadas que puedan recuperar información complementaria.
+
+No respondas la pregunta.
+
+Devuelve únicamente las cinco consultas, una por línea.
+
+Pregunta original:
+
+{question}
+"""
+)
+
 OUT_OF_SCOPE_MESSAGE = (
     "Esta consulta está fuera del alcance del asistente universitario. Yo estoy "
     "para ayudarte en temas relacionados con reglamentos oficiales, procesos y "
