@@ -34,6 +34,10 @@ class Settings(BaseSettings):
     app_port: int = 8000
     cors_origins: str = "*"
 
+     # --- Contacto institucional (mensaje de contexto insuficiente) ---
+    contacto_email: str = "informacion@unab.edu.sv"
+    contacto_telefono: str = "2240-8000"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     @property
