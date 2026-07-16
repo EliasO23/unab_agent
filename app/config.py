@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     pinecone_host: str
     pinecone_index: str = "unab-rag-agent"
 
+    # --- Cohere ---
+    cohere_api_key: str
+    cohere_model: str = "command-a-03-2025"
+
     # --- Embeddings ---
     embedding_model: str = "intfloat/multilingual-e5-small"
 
