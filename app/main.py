@@ -4,7 +4,7 @@ from app.config import get_settings
 
 settings = get_settings()
 app = FastAPI(title="Agente Virtual UNAB")
-app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins_list, allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/")
 def root():

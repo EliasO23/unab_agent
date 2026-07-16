@@ -25,3 +25,10 @@ def get_vector_store() -> PineconeVectorStore:
         host=settings.pinecone_host,
         pinecone_api_key=settings.pinecone_api_key,
     )
+
+@lru_cache
+def get_base_retriever():
+    settings = get_settings()
+    return get_vector_store().as_retriever(
+        search_kwargs={"k": settings.retriever_k}
+    )
