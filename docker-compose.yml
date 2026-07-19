@@ -1,0 +1,20 @@
+services:
+  unab-rag-agent:
+    build: .
+    image: unab-rag-agent:latest
+    container_name: unab-rag-agent
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      # Permite actualizar los documentos oficiales sin reconstruir la imagen.
+      # Ejecutar la ingestión con:
+      #   docker compose exec unab-rag-agent python -m app.ingestion.ingest
+      - ./documentos:/app/documentos
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
