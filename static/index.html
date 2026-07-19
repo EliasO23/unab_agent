@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universidad Doctor Andrés Bello</title>
+    <meta name="description" content="Portal institucional de la Universidad Doctor Andrés Bello. Consulta reglamentos y procesos oficiales con el Asistente Virtual UNAB." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_forward" />
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/logo.ico">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <a href="/" aria-label="Ir al inicio">
+        <img src="/static/images/logo-unab.png" alt="Logo Universidad Doctor Andrés Bello" />
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="#servicios">Servicios</a>
+      <a href="#catalogo">Reglamentos</a>
+      <a href="#proceso">Cómo funciona</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <!-- <button class="nav__cta" onclick="document.getElementById('chat-launcher').click()">
+      Consultar Asistente 
+    </button> -->
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__text">
+      <p class="eyebrow">Portal institucional · Información oficial</p>
+      <h1>La respuesta a tu trámite está&nbsp;en&nbsp;el&nbsp;reglamento.<br>Nosotros lo buscamos por ti.</h1>
+      <p class="hero__lead">
+        El Agente Virtual UNAB consulta en segundos los reglamentos, circulares
+        y procesos oficiales de la universidad, y te responde citando la fuente exacta.
+        Sin suposiciones. Sin información inventada.
+      </p>
+      <div class="hero__actions">
+        <button class="btn btn--primary" onclick="document.getElementById('chat-launcher').click()">
+          Preguntar ahora <span class="material-symbols-outlined arrow_forward">arrow_forward</span>
+        </button>
+        <a class="btn btn--ghost" href="#catalogo">Ver reglamentos disponibles</a>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="catalog">
+        <div class="catalog__card catalog__card--1">
+          <span class="catalog__tag">Reglamento</span>
+          <span class="catalog__title">General de Becas</span>
+          <span class="catalog__meta">Art. 11 · Requisitos de renovación</span>
+        </div>
+        <div class="catalog__card catalog__card--2">
+          <span class="catalog__tag">Reglamento</span>
+          <span class="catalog__title">Evaluación del Aprendizaje</span>
+          <span class="catalog__meta">Art. 5 · CUM mínimo para egreso</span>
+        </div>
+        <div class="catalog__card catalog__card--3">
+          <span class="catalog__tag">Circular</span>
+          <span class="catalog__title">Calendario Académico</span>
+          <span class="catalog__meta">Fechas y aranceles vigentes</span>
+        </div>
+        <div class="catalog__card catalog__card--4">
+          <span class="catalog__tag">Reglamento</span>
+          <span class="catalog__title">Disciplinario</span>
+          <span class="catalog__meta">Cap. 10 · Faltas y sanciones</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="section">
+    <p class="eyebrow">Qué resuelve el asistente</p>
+    <h2>Una guía institucional, disponible a toda hora</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="card__icon">⌘</div>
+        <h3>Reglamentos con fuente citada</h3>
+        <p>Cada respuesta se basa exclusivamente en los documentos oficiales vigentes de la UNAB, con referencia al reglamento o artículo correspondiente.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">◕</div>
+        <h3>Disponible las 24 horas</h3>
+        <p>Sin horarios de oficina ni filas de espera. Resuelve tus dudas a cualquier hora, cualquier día, desde tu celular o computadora.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">⤵</div>
+        <h3>Un solo lugar para todas tus dudas</h3>
+        <p>Becas, matrículas, reglamentos disciplinarios, procesos de graduación y más. Toda la normativa institucional organizada en un solo asistente.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">✦</div>
+        <h3>Conversación natural</h3>
+        <p>Pregunta como lo harías con una persona: sin formularios, sin comandos especiales, sin necesidad de saber "dónde buscar".</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">⟳</div>
+        <h3>Acceso inmediato, sin trámites</h3>
+        <p>No necesitas agendar cita ni esperar respuesta por correo. La información que necesitas está a una pregunta de distancia.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon">❖</div>
+        <h3>Pensado para la comunidad UNAB</h3>
+        <p>Diseñado específicamente para resolver las dudas más frecuentes de estudiantes, docentes y personal administrativo.</p>
+      </article>
+    </div>
+    
+  </section>
+
+  <!-- CATALOGO -->
+  <section id="catalogo" class="section section--alt">
+      <div class="title-header">
+        <p class="eyebrow">Fuentes consultadas</p>
+        <h2>Reglamentos y procesos disponibles</h2>
+      </div>
+      <div class="reglamentos">
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento active">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">01</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento de Evaluación de Aprendizaje</h3>
+                      <p>Normativa sobre evaluación académica</p>
+                  </div>
+                  <span class="reglamento-icon">×</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Establece las normas que regulan la evaluación del
+                          aprendizaje de los estudiantes, los criterios de
+                          aprobación, recuperación y demás procesos relacionados
+                          con el rendimiento académico.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Evaluaciones ordinarias</li>
+                      <li>Exámenes diferidos</li>
+                      <li>Recuperaciones</li>
+                      <li>Promedios finales</li>
+                      <li>Revisión de notas</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">02</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento General de Becas</h3>
+                      <p>Normativa para programas de becas UNAB</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Define los tipos de becas disponibles, los criterios 
+                          de elegibilidad, el proceso de solicitud y las 
+                          condiciones que deben cumplirse para mantener el 
+                          beneficio durante la carrera.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Tipos de becas</li>
+                      <li>Renovación</li>
+                      <li>Suspensión</li>
+                      <li>Obligaciones</li>
+                      <li>Beneficios</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">03</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento Disciplinario</h3>
+                      <p>Normas de conducta y procedimientos sancionatorios</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Regula las conductas esperadas de la comunidad estudiantil, 
+                          tipifica las faltas y establece el debido proceso para la 
+                          aplicación de sanciones dentro de la universidad.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Clasificación de faltas</li>
+                      <li>Proceso disciplinario</li>
+                      <li>Sanciones</li>
+                      <li>Derechos y deberes</li>
+                      <li>Instancias de apelación</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">04</span>
+                  <div class="reglamento-info">
+                      <h3>Calendario y Aranceles</h3>
+                      <p>Fechas clave y costos del ciclo académico</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Detalla el calendario oficial de actividades académicas y 
+                          administrativas, junto con la estructura de aranceles, 
+                          cuotas y fechas límite de pago vigentes para el ciclo actual.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Calendario académico</li>
+                      <li>Inicio/fin de ciclo</li>
+                      <li>Cuotas</li>
+                      <li>Fechas límite de pago</li>
+                      <li>Periodos de examenes</li>
+                      <li>Vacaciones</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">05</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento General de Graduación</h3>
+                      <p>Requisitos para obtener tu título profesional</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Establece los requisitos académicos y administrativos 
+                          que debe cumplir el estudiante para graduarse, así 
+                          como las modalidades de trabajo de graduación 
+                          disponibles.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Requisitos de egreso</li>
+                      <li>Proceso de graduación</li>
+                      <li>Pre-especializacion</li>
+                      <li>Trabajo de investigación</li>
+                      <li>Plazos y prorrogas</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">06</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento de Servicio Social Estudiantil</h3>
+                      <p>Cómo cumplir tu horas de servicio social</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Regula el proceso, requisitos y modalidades para el 
+                          cumplimiento del servicio social estudiantil, un 
+                          requisito obligatorio previo a la graduación.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Horas requeridas</li>
+                      <li>Requisitos</li>
+                      <li>Proceso de inscripción</li>
+                      <li>Documentacion</li>
+                      <li>Faltas y sanciones</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">07</span>
+                  <div class="reglamento-info">
+                      <h3>Reglamento de Equivalencias</h3>
+                      <p>Reconocimiento de materias y traslados académicos</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Define el proceso para el reconocimiento de asignaturas 
+                          cursadas en otras instituciones o carreras, aplicable 
+                          a estudiantes que se trasladan o reingresan a la 
+                          universidad.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Documentacion requerida</li>
+                      <li>Tipos de equivalencias</li>
+                      <li>Procesos a realizar</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">08</span>
+                  <div class="reglamento-info">
+                      <h3> Reglamento General de Administración Académica</h3>
+                      <p>Normas generales de la vida académica estudiantil</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Regula los procesos administrativos-académicos 
+                          generales de la universidad, incluyendo matrícula, 
+                          retiros, cambios de carrera y derechos y deberes del 
+                          estudiante.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Requisitos de ingreso</li>
+                      <li>Inscripción de estudiantes</li>
+                      <li>Carga academica</li>
+                      <li>Cambios de carrera</li>
+                      <li>Retiro de asignaturas</li>
+                      <li>Retiro de la Universidad</li>
+                      <li>Evaluaciones</li>
+                  </ul>
+              </div>
+          </article>
+          <!-- ================= ITEM ================= -->
+          <article class="reglamento">
+              <button class="reglamento-header">
+                  <span class="reglamento-numero">09</span>
+                  <div class="reglamento-info">
+                      <h3> Reglamento de Servicio Social Estudiantil</h3>
+                      <p>Cómo cumplir tu horas de servicio social</p>
+                  </div>
+                  <span class="reglamento-icon">+</span>
+              </button>
+              <div class="reglamento-body">
+                  <div class="descripcion">
+                      <p>
+                          Regula el proceso, requisitos y modalidades para el 
+                          cumplimiento del servicio social estudiantil, un 
+                          requisito obligatorio previo a la graduación.
+                      </p>
+                  </div>
+                  <ul class="temas">
+                      <li>Horas requeridas</li>
+                      <li>Requisitos</li>
+                      <li>Proceso de inscripción</li>
+                      <li>Documentacion</li>
+                      <li>Faltas y sanciones</li>
+                  </ul>
+              </div>
+          </article>
+      </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section id="proceso" class="section">
+    <p class="eyebrow">Cómo funciona</p>
+    <h2>De tu pregunta al reglamento exacto</h2>
+    <ol class="steps">
+      <li>
+        <span class="steps__num">01</span>
+        <div>
+          <h3>Escribes tu consulta</h3>
+          <p>En lenguaje natural, como se lo preguntarías a un funcionario de la universidad.</p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__num">02</span>
+        <div>
+          <h3>El agente identifica el tema</h3>
+          <p>Determina si tu consulta corresponde a información institucional antes de buscar en los documentos.</p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__num">03</span>
+        <div>
+          <h3>Explora los reglamentos oficiales</h3>
+          <p>Revisa el contenido vigente desde múltiples ángulos para no dejar fuera información relevante.</p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__num">04</span>
+        <div>
+          <h3>Recibes una respuesta clara</h3>
+          <p>Con los pasos a seguir y la referencia normativa, o la indicación de a quién escribir si no hay certeza.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+</main>
+
+<footer id="contacto" class="footer">
+  <div class="footer__inner">
+    <div>
+      <a href="/" aria-label="Ir al inicio">
+        <img src="/static/images/logo-unab.png" alt="Logo Universidad Doctor Andrés Bello" />
+      </a>
+      <!-- <span class="brand__mark" aria-hidden="true">UB</span>
+      <p>Universidad Doctor Andrés Bello</p> -->
+    </div>
+    <div class="footer__contact">
+      <p><strong>Call Center</strong></p>
+      <p>2240-8000</p>
+    </div>
+    <p class="footer__note">Este portal ofrece orientación institucional automatizada basada en documentos oficiales. No sustituye trámites formales ante Registro Académico.</p>
+  </div>
+
+  <div class="footer__copyright">
+    <p class="footer__credit">
+      Realizado por <a href="https://github.com/EliasO23" target="_blank" rel="noopener noreferrer">Elias Antonio Oliva Calderon</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Botón flotante del asistente -->
+<button id="chat-launcher" class="chat-launcher" aria-label="Abrir asistente virtual UNAB">
+  <span class="chat-launcher__icon"><img src="/static/images/icon_agent.png" alt="Icono de asistente virtual"></span>
+</button>
+
+<!-- Panel de chat -->
+<div id="chat-panel" class="chat-panel" aria-hidden="true">
+  <div class="chat-panel__header">
+    <div>
+      <p class="chat-panel__title">Agente Virtual UNAB</p>
+      <p class="chat-panel__subtitle">Reglamentos y procesos oficiales</p>
+    </div>
+    <div class="chat-panel__header-actions">
+      <button id="chat-expand" class="chat-panel__icon-btn" aria-label="Ampliar chat">⤢</button>
+      <button id="chat-close" class="chat-panel__close" aria-label="Cerrar chat">✕</button>
+    </div>
+  </div>
+  <div id="chat-messages" class="chat-panel__messages"></div>
+  <form id="chat-form" class="chat-panel__form">
+    <input
+      id="chat-input"
+      type="text"
+      placeholder="Escribe tu consulta..."
+      autocomplete="off"
+      maxlength="2000"
+    />
+    <button type="submit" aria-label="Enviar">➤</button>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="/static/js/chat.js"></script>
+<script src="/static/js/index.js"></script>
+</body>
+</html>

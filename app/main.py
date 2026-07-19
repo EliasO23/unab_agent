@@ -35,6 +35,15 @@ app.add_middleware(
 # API del agente (chat, health, etc.)
 app.include_router(api_router)
 
+# Assets estáticos (css/js/imágenes) de la landing page
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def serve_landing():
+    return FileResponse(str(STATIC_DIR / "index.html"))
+
+
 @app.on_event("startup")
 def warm_up():
     """
