@@ -16,8 +16,8 @@
 
   const EXAMPLE_QUERIES = [
     "¿Nota mínima de CUM para graduarme?",
-    "¿Como obtengo equivalencias en una asignatura?",
-    "¿Cuándo son los primeros parciales del ciclo?",
+    "¿Cual es el proceso para solicitar equivalencias en una asignatura?",
+    "¿Cuándo son los primeros parciales del ciclo 2-2026?",
   ];
 
   function toggleExpand() {
@@ -59,18 +59,30 @@
   closeBtn.addEventListener("click", toggleChat);
   expandBtn.addEventListener("click", toggleExpand);
 
+  function normalizeResponseText(text) {
+    return String(text ?? "")
+      .replace(/\r\n/g, "\n")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
   function appendMessage(text, sender) {
     const bubble = document.createElement("div");
+    const normalizedText =
+      sender === "bot" || sender === "example"
+        ? normalizeResponseText(text)
+        : String(text ?? "");
 
     if (sender === "example") {
       bubble.className = "msg--example msg--bot";
-      bubble.innerHTML = marked.parse(text);
+      bubble.innerHTML = marked.parse(normalizedText);
     } else if (sender === "bot") {
       bubble.className = `msg msg--${sender}`;
-      bubble.innerHTML = marked.parse(text);
+      bubble.innerHTML = marked.parse(normalizedText);
     } else {
       bubble.className = `msg msg--${sender}`;
-      bubble.textContent = text;
+      bubble.textContent = normalizedText;
     }
 
     messages.appendChild(bubble);

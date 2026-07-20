@@ -694,7 +694,8 @@ a { color: inherit; }
   max-width: 85%;
   padding: 10px 14px;
   border-radius: var(--radius-md);
-  white-space: pre-wrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
   line-height: 1.45;
 }
 
