@@ -20,7 +20,7 @@ flotante.
 > Desplegado en una instancia de Oracle Cloud Infrastructure (Compute,
 > Oracle Linux 9).
 
-![Demo del agente respondiendo una consulta institucional](docs/evidencias/respuesta-chat.gif)
+![Demo del agente respondiendo una consulta institucional](docs/evidencias/evidencia-oci.gif)
 
 ## Tabla de contenidos
  
