@@ -25,6 +25,10 @@ estas tres categorías:
 - SALUDO: el mensaje es un saludo, despedida o cortesía conversacional, sin
   una pregunta institucional real (ej. "hola", "buenos días", "¿cómo estás?",
   "gracias", "adiós", "buenas tardes, quisiera saludar").
+- CAPACIDADES: el mensaje pregunta por el asistente mismo, qué es o qué
+  puede hacer, sin preguntar por un reglamento o trámite específico
+  (ej. "¿qué puedes hacer?", "¿en qué me puedes ayudar?", "cuéntame de ti",
+  "¿qué eres?", "dime tus funciones", "¿para qué sirves?").
 - INSTITUCIONAL: el mensaje corresponde a un tema institucional/universitario
   (reglamentos, becas, notas, matrícula, trámites administrativos, procesos
   académicos, docentes, sanciones, infraestructura, calendarios, requisitos
@@ -45,9 +49,7 @@ Respuesta (una sola palabra):
 )
 
 # 2.1 Prompt de saludo dinámico (Cohere) - se ejecuta cuando el clasificador
-#     determina que el mensaje es un SALUDO. Genera una respuesta breve y
-#     cálida que refleja el tono del saludo recibido, sin pasar por el
-#     multiquery ni consultar el vector store.
+#     determina que el mensaje es un SALUDO.
 # ---------------------------------------------------------------------------
 GREETING_PROMPT = PromptTemplate.from_template(
     """
@@ -214,6 +216,21 @@ OUT_OF_SCOPE_MESSAGE = (
     "Esta consulta está fuera del alcance del agente universitario. Yo estoy "
     "para ayudarte en temas relacionados con reglamentos oficiales, procesos y "
     "documentación institucional de la UNAB.\n\n¿En qué puedo ayudarte?"
+)
+
+CAPABILITIES_MESSAGE = (
+    "Soy el Agente Virtual de la UNAB. Puedo ayudarte a consultar los "
+    "reglamentos y procesos oficiales de la universidad, por ejemplo:\n\n"
+    "- Evaluación del aprendizaje: calificación mínima, evaluaciones diferidas y examen de reposición\n"
+    "- Becas: tipos, elegibilidad, renovación y suspensión\n"
+    "- Disciplina: faltas, sanciones y procedimientos\n"
+    "- Calendario y aranceles: fechas, pagos, cuotas y trámites\n"
+    "- Graduación: requisitos, trabajo de grado y plazos\n"
+    "- Servicio social estudiantil: requisitos, horas y documentación\n"
+    "- Equivalencias: reconocimiento de materias y traslados\n"
+    "- Administración académica: matrícula, retiros, cambios de carrera\n\n"
+    "Escríbeme tu consulta y buscaré la respuesta en los "
+    "documentos oficiales vigentes."
 )
 
 def build_insufficient_context_message(contacto_email: str, contacto_telefono: str) -> str:

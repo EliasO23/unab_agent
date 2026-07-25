@@ -21,7 +21,7 @@ from langchain_core.output_parsers import StrOutputParser
 from app.config import get_settings
 from app.core.prompts import CLASSIFIER_PROMPT, GREETING_PROMPT
 
-QueryCategory = Literal["saludo", "institucional", "fuera_de_alcance"]
+QueryCategory = Literal["saludo", "capacidades", "institucional", "fuera_de_alcance"]
 
 @lru_cache
 def _get_classifier_llm() -> ChatCohere:
@@ -55,6 +55,8 @@ def classify_query(query: str) -> QueryCategory:
 
     if "SALUDO" in raw:
         return "saludo"
+    if "CAPACIDADES" in raw:
+        return "capacidades"
     if "FUERA_DE_ALCANCE" in raw or "FUERA DE ALCANCE" in raw:
         return "fuera_de_alcance"
     return "institucional"

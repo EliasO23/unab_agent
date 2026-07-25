@@ -3,17 +3,20 @@
 Orquestacion del flujo RAG del agente UNAB.
  
 Flujo:
-1. Clasificacion (Cohere)        -> "saludo" | "institucional" | "fuera_de_alcance"
+1. Clasificacion (Cohere)        -> "saludo" | "capacidades" | "institucional" | "fuera_de_alcance"
    - Si es SALUDO           -> se genera una respuesta breve y dinamica
      (Cohere) segun el saludo recibido. No se ejecuta el multiquery ni
      se consulta el vector store.
+   - Si es CAPACIDADES      -> se responde de inmediato con el mensaje
+     fijo que resume lo que el asistente puede hacer. Tampoco se ejecuta
+     el multiquery.
    - Si es FUERA_DE_ALCANCE -> se responde de inmediato con el mensaje
      fijo de fuera de alcance. Tampoco se ejecuta el multiquery.
    - Si es INSTITUCIONAL    -> continua el flujo normal (pasos 2-4).
 2. Multiquery (Gemini)           -> genera variaciones de la pregunta y
    recupera fragmentos desde Pinecone usando el retriever base.
 3. Si no se recupera contexto    -> mensaje de "contexto insuficiente".
-4. Respuesta final (Gemini)      -> usando el prompt del agente UNAB
+4. Respuesta final (Gemini)      -> usando el prompt del asistente UNAB
    con el contexto recuperado.
 """
 
@@ -28,6 +31,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from app.config import get_settings
 from app.core.classifier import classify_query, generate_greeting_response
 from app.core.prompts import (
+    CAPABILITIES_MESSAGE,
     MULTIQUERY_PROMPT,
     OUT_OF_SCOPE_MESSAGE,
     RESPONSE_PROMPT,
@@ -39,7 +43,7 @@ logger = logging.getLogger("unab_rag_agent")
 
 class RagAnswer(TypedDict):
     answer: str
-    classification: str  # "saludo" | "institucional" | "fuera_de_alcance"
+    classification: str  # "saludo" | "capacidades" | "institucional" | "fuera_de_alcance"
     used_multiquery: bool
     num_fragments: int
 
@@ -78,6 +82,15 @@ def answer_query(query: str) -> RagAnswer:
         return RagAnswer(
             answer=generate_greeting_response(query),
             classification="saludo",
+            used_multiquery=False,
+            num_fragments=0,
+        )
+
+    if categoria == "capacidades":
+        logger.info("Consulta clasificada como CAPACIDADES: %s", query)
+        return RagAnswer(
+            answer=CAPABILITIES_MESSAGE,
+            classification="capacidades",
             used_multiquery=False,
             num_fragments=0,
         )

@@ -11,7 +11,7 @@ class ChatResponse(BaseModel):
     answer: str
     classification: str = Field(
         ...,
-        description='Una de: "saludo", "institucional", "fuera_de_alcance"',
+        description='Una de: "saludo", "capacidades", "institucional", "fuera_de_alcance"',
     )
     used_multiquery: bool
     num_fragments: int
