@@ -9,10 +9,12 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
-    classification: str
+    classification: str = Field(
+        ...,
+        description='Una de: "saludo", "institucional", "fuera_de_alcance"',
+    )
     used_multiquery: bool
     num_fragments: int
-
 
 class HealthResponse(BaseModel):
     status: str = "ok"

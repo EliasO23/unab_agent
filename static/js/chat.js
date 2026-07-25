@@ -8,7 +8,7 @@
   const messages = document.getElementById("chat-messages");
 
   const WELCOME_MESSAGE =
-    "Hola, soy Andres el Agente Virtual de la UNAB. Estoy aqui para resolver tus dudas con reglamentos, " +
+    "Hola, soy el Agente Virtual de la UNAB. Estoy aqui para resolver tus dudas con reglamentos, " +
     "servicio social, matrícula, graduación y otros procesos oficiales de la institucion.";
 
   let opened = false;
@@ -130,7 +130,7 @@
     } catch (err) {
       hideTyping();
       appendMessage(
-        "No fue posible conectar con el asistente. Verifica tu conexión e intenta de nuevo.",
+        "No fue posible conectar con el agente. Verifica tu conexión e intenta de nuevo.",
         "bot"
       );
     }

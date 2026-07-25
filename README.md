@@ -6,7 +6,7 @@ reglamentos y documentos oficiales indexados, citando la fuente cuando está
 disponible, y se integra en una landing institucional con un widget de chat
 flotante.
  
-> El asistente **no inventa información ni completa con suposiciones**: si la
+> El agente **no inventa información ni completa con suposiciones**: si la
 > consulta no corresponde a un tema institucional, o si los documentos
 > oficiales no contienen la respuesta, lo indica explícitamente en vez de
 > improvisar.
@@ -139,11 +139,11 @@ módulos que colaboran entre sí:
   prompt de clasificación (institucional / fuera de alcance), el prompt de
   generación de sub-consultas para el multiquery, y el prompt de respuesta
   final con el rol, tono, protocolo empático y reglas de formato del
-  asistente institucional. No ejecuta lógica, solo define texto
+  agente institucional. No ejecuta lógica, solo define texto
   parametrizable.
 - **`classifier.py`** — implementa el filtro de intención usando Cohere.
   Recibe la pregunta del usuario y determina si corresponde a un tema
-  institucional o si está fuera del alcance del asistente, antes de que se
+  institucional o si está fuera del alcance del agente, antes de que se
   invoque cualquier otro componente más costoso.
 - **`vectorstore.py`** — gestiona la conexión con Pinecone y con el modelo
   de embeddings de HuggingFace. Expone el retriever base (búsqueda por
@@ -271,7 +271,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
  
 Abre `http://localhost:8000` — deberías ver la landing institucional. El
-botón azul en la esquina inferior derecha abre el chat del asistente.
+botón azul en la esquina inferior derecha abre el chat del agente.
  
 ## Ingesta de documentos
  
@@ -346,7 +346,7 @@ Verificación de estado del servicio.
 
 ## Ejemplos de preguntas y respuestas
  
-> Muestra casos reales de uso del asistente, una vez
+> Muestra casos reales de uso del agente, una vez
 > indexados los reglamentos oficiales de la universidad.
  
 ### Pregunta:
@@ -432,7 +432,7 @@ Verificación de estado del servicio.
 ¿Qué es una variable en programación?
 ```
 **Respuesta del agente:** 
->Esta consulta está fuera del alcance del asistente universitario. Yo estoy para ayudarte en temas relacionados con reglamentos oficiales, procesos y documentación institucional de la UNAB.
+>Esta consulta está fuera del alcance del agente universitario. Yo estoy para ayudarte en temas relacionados con reglamentos oficiales, procesos y documentación institucional de la UNAB.
 >
 >¿En qué puedo ayudarte?
 

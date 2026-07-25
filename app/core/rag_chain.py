@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Orquestación del flujo RAG del agente UNAB.
-
+Orquestacion del flujo RAG del agente UNAB.
+ 
 Flujo:
-1. Clasificación (Cohere)        -> ¿la pregunta es institucional?
-   - Si NO -> se responde de inmediato con el mensaje de fuera de alcance.
-     Esto evita generar las 5 sub-consultas del multiquery y consultar
-     el vector store, ahorrando tokens y latencia.
+1. Clasificacion (Cohere)        -> "saludo" | "institucional" | "fuera_de_alcance"
+   - Si es SALUDO           -> se genera una respuesta breve y dinamica
+     (Cohere) segun el saludo recibido. No se ejecuta el multiquery ni
+     se consulta el vector store.
+   - Si es FUERA_DE_ALCANCE -> se responde de inmediato con el mensaje
+     fijo de fuera de alcance. Tampoco se ejecuta el multiquery.
+   - Si es INSTITUCIONAL    -> continua el flujo normal (pasos 2-4).
 2. Multiquery (Gemini)           -> genera variaciones de la pregunta y
    recupera fragmentos desde Pinecone usando el retriever base.
 3. Si no se recupera contexto    -> mensaje de "contexto insuficiente".
-4. Respuesta final (Gemini)      -> usando el prompt del asistente UNAB
+4. Respuesta final (Gemini)      -> usando el prompt del agente UNAB
    con el contexto recuperado.
 """
 
@@ -23,7 +26,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.config import get_settings
-from app.core.classifier import is_institutional_query
+from app.core.classifier import classify_query, generate_greeting_response
 from app.core.prompts import (
     MULTIQUERY_PROMPT,
     OUT_OF_SCOPE_MESSAGE,
@@ -36,7 +39,7 @@ logger = logging.getLogger("unab_rag_agent")
 
 class RagAnswer(TypedDict):
     answer: str
-    classification: str  # "institucional" | "fuera_de_alcance"
+    classification: str  # "saludo" | "institucional" | "fuera_de_alcance"
     used_multiquery: bool
     num_fragments: int
 
@@ -68,7 +71,18 @@ def answer_query(query: str) -> RagAnswer:
     settings = get_settings()
 
     # --- 1. Clasificación previa (Cohere) ---
-    if not is_institutional_query(query):
+    categoria = classify_query(query)
+
+    if categoria == "saludo":
+        logger.info("Consulta clasificada como SALUDO: %s", query)
+        return RagAnswer(
+            answer=generate_greeting_response(query),
+            classification="saludo",
+            used_multiquery=False,
+            num_fragments=0,
+        )
+
+    if categoria == "fuera_de_alcance":
         logger.info("Consulta clasificada como FUERA_DE_ALCANCE: %s", query)
         return RagAnswer(
             answer=OUT_OF_SCOPE_MESSAGE,

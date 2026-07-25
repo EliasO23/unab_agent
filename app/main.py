@@ -20,7 +20,7 @@ settings = get_settings()
 
 app = FastAPI(
     title="Agente Virtual UNAB",
-    description="Asistente institucional basado en RAG para la Universidad Doctor Andrés Bello.",
+    description="Agente institucional basado en RAG para la Universidad Doctor Andrés Bello.",
     version="1.0.0",
 )
 
@@ -52,10 +52,11 @@ def warm_up():
     pague el costo de inicialización.
     """
     from app.core.rag_chain import _get_multi_retriever, _get_response_chain
-    from app.core.classifier import _get_classifier_chain
+    from app.core.classifier import _get_classifier_chain, _get_greeting_chain
 
     logger.info("Precargando componentes del agente UNAB...")
     _get_classifier_chain()
+    _get_greeting_chain()
     _get_multi_retriever()
     _get_response_chain()
     logger.info("Componentes listos.")

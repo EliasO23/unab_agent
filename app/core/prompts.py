@@ -16,25 +16,83 @@ from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 # ---------------------------------------------------------------------------
 CLASSIFIER_PROMPT = PromptTemplate.from_template(
     """
-Eres un clasificador binario para el asistente virtual de la Universidad Doctor
+Eres un clasificador para el agente virtual de la Universidad Doctor
 Andrés Bello (UNAB).
-
-Tu única tarea es decidir si la siguiente pregunta de un usuario corresponde a
-un tema institucional/universitario (reglamentos, becas, notas, matrícula,
-trámites administrativos, procesos académicos, docentes, sanciones,
-infraestructura, calendarios, requisitos de graduación, etc.) o si, por el
-contrario, es un tema ajeno a la universidad (deportes, política externa,
-entretenimiento, salud personal no relacionada a la universidad, cultura
-general, u otros temas sin relación con la vida universitaria).
-
+ 
+Tu única tarea es clasificar el siguiente mensaje de un usuario en UNA de
+estas tres categorías:
+ 
+- SALUDO: el mensaje es un saludo, despedida o cortesía conversacional, sin
+  una pregunta institucional real (ej. "hola", "buenos días", "¿cómo estás?",
+  "gracias", "adiós", "buenas tardes, quisiera saludar").
+- INSTITUCIONAL: el mensaje corresponde a un tema institucional/universitario
+  (reglamentos, becas, notas, matrícula, trámites administrativos, procesos
+  académicos, docentes, sanciones, infraestructura, calendarios, requisitos
+  de graduación, etc.), incluso si además incluye un saludo al inicio
+  (ej. "hola, ¿cuál es la nota mínima para graduarme?" es INSTITUCIONAL).
+- FUERA_DE_ALCANCE: el mensaje no es un saludo y tampoco corresponde a un
+  tema institucional (deportes, política externa, entretenimiento, salud
+  personal no relacionada a la universidad, cultura general, etc.).
+ 
 Responde ÚNICAMENTE con una sola palabra, sin explicaciones ni puntuación:
-- INSTITUCIONAL  -> si la pregunta corresponde a temas de la universidad.
-- FUERA_DE_ALCANCE -> si la pregunta no corresponde a temas de la universidad.
-
-Pregunta del usuario:
+SALUDO, INSTITUCIONAL o FUERA_DE_ALCANCE.
+ 
+Mensaje del usuario:
 {question}
-
+ 
 Respuesta (una sola palabra):
+"""
+)
+
+# 2.1 Prompt de saludo dinámico (Cohere) - se ejecuta cuando el clasificador
+#     determina que el mensaje es un SALUDO. Genera una respuesta breve y
+#     cálida que refleja el tono del saludo recibido, sin pasar por el
+#     multiquery ni consultar el vector store.
+# ---------------------------------------------------------------------------
+GREETING_PROMPT = PromptTemplate.from_template(
+    """
+Eres el asistente virtual de la Universidad Doctor Andrés Bello (UNAB).
+ 
+El usuario te acaba de escribir el siguiente mensaje, que es un saludo,
+despedida o cortesía conversacional (no una pregunta institucional):
+ 
+{question}
+ 
+Primero identifica de qué tipo de mensaje se trata:
+- APERTURA: un saludo para iniciar la conversación (ej. "hola",
+  "buenos días", "buenas tardes", "¿cómo estás?").
+- CIERRE: una despedida (ej. "adiós", "hasta luego", "nos vemos", "chao").
+- AGRADECIMIENTO: un agradecimiento (ej. "gracias", "muchas gracias",
+  "te lo agradezco").
+ 
+Luego responde de forma breve y natural (máximo 2 oraciones), adaptando
+el tono según el tipo de mensaje:
+- Si es APERTURA: refleja el tono del saludo (reconoce el momento del día
+  si lo menciona, o responde brevemente si pregunta "¿cómo estás?"),
+  preséntate como el asistente virtual de la UNAB, e invita a la persona a
+  preguntar sobre reglamentos, becas, trámites o procesos institucionales.
+- Si es CIERRE: despídete de forma cordial y breve. No te presentes de
+  nuevo ni repitas que puede consultarte sobre reglamentos: eso ya se
+  sabe si está terminando la conversación. Como mucho, puedes dejar una
+  frase corta quedando disponible para cuando lo necesite.
+- Si es AGRADECIMIENTO: responde con algo breve como "con gusto" o
+  "para eso estoy", sin repetir tu presentación completa ni la lista de
+  temas que puedes ayudar, a menos que la persona no haya hecho ninguna
+  pregunta institucional todavía en la conversación.
+ 
+No inventes información institucional en esta respuesta, es solo una
+cortesía conversacional. No uses markdown ni emojis.
+
+IMPORTANTE: el paso de identificar el tipo de mensaje (APERTURA, CIERRE o
+AGRADECIMIENTO) es solo para que decidas internamente el tono de tu
+respuesta. Tu salida final debe contener ÚNICAMENTE el texto de la
+respuesta que verá el usuario, en una sola línea de texto plano. No
+incluyas la palabra "Tipo de mensaje", no escribas la categoría detectada,
+no incluyas la palabra "Respuesta:", no uses viñetas ni expliques tu
+razonamiento. Escribe directamente el mensaje, como si estuvieras
+hablando con la persona.
+ 
+Respuesta:
 """
 )
 
@@ -43,7 +101,7 @@ Respuesta (una sola palabra):
 # ---------------------------------------------------------------------------
 MULTIQUERY_PROMPT = PromptTemplate.from_template(
     """
-Eres un asistente especializado en reglamentos y documentación universitaria.
+Eres un agente especializado en reglamentos y documentación universitaria.
 
 Tu tarea es generar cinco consultas complementarias. Cada una debe explorar una perspectiva distinta de la pregunta original y
 evitar reformulaciones superficiales, para recuperar la mayor cantidad de información relevante de una base de datos vectorial.
@@ -74,7 +132,7 @@ RESPONSE_PROMPT = ChatPromptTemplate.from_messages(
         (
             "system",
             """
-        Eres el asistente virtual de la Universidad Doctor Andres Bello (UNAB). Tu función es responder
+        Eres el agente virtual de la Universidad Doctor Andres Bello (UNAB). Tu función es responder
         únicamente utilizando la información contenida en el contexto proporcionado.
         No inventes información, no hagas suposiciones ni utilices conocimientos externos.
 
@@ -120,13 +178,13 @@ RESPONSE_PROMPT = ChatPromptTemplate.from_messages(
         - No agregues información que no aparezca en el contexto.
 
         ==========================================================
-        4. CONSULTAS FUERA DEL ALCANCE DEL ASISTENTE
+        4. CONSULTAS FUERA DEL ALCANCE DEL AGENTE
         ==========================================================
         Si la pregunta no corresponde a temas institucionales/universitarios (por
         ejemplo, temas personales ajenos a la universidad, opiniones políticas,
         temas legales externos, salud, etc.) responde:
 
-        "Esta consulta está fuera del alcance del asistente universitario. Yo estoy para ayudarte en
+        "Esta consulta está fuera del alcance del agente universitario. Yo estoy para ayudarte en
         temas relacionados con reglamentos oficiales, procesos y documentación institucional de la UNAB.
         ¿En que puedo ayudarte?"
 
@@ -153,7 +211,7 @@ RESPONSE_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 OUT_OF_SCOPE_MESSAGE = (
-    "Esta consulta está fuera del alcance del asistente universitario. Yo estoy "
+    "Esta consulta está fuera del alcance del agente universitario. Yo estoy "
     "para ayudarte en temas relacionados con reglamentos oficiales, procesos y "
     "documentación institucional de la UNAB.\n\n¿En qué puedo ayudarte?"
 )
