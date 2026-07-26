@@ -7,6 +7,12 @@
   const input = document.getElementById("chat-input");
   const messages = document.getElementById("chat-messages");
 
+  const renderer = new marked.Renderer();
+  renderer.link = (href, title, text) => {
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+  };
+  marked.use({ renderer });
+
   const WELCOME_MESSAGE =
     "Hola, soy el Agente Virtual de la UNAB. Estoy aqui para resolver tus dudas con reglamentos, " +
     "servicio social, matrícula, graduación y otros procesos oficiales de la institucion.";

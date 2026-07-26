@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     # --- Retrieval ---
     retriever_k: int = 4
 
+    # --- Enlaces Calendario ---
+    enlace_calendario: str = "https://drive.google.com/drive/folders/1V6uppKq1f-ZARHxM1wemtFbuo1sJ1_jT"
+
     # --- App ---
     app_host: str = "0.0.0.0"
     app_port: int = 8000

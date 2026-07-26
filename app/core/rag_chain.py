@@ -64,7 +64,7 @@ def _get_groq_llm() -> ChatGroq:
     return ChatGroq(
         groq_api_key=settings.groq_api_key,
         model_name=settings.groq_model,
-        temperature=0
+        temperature=0.1,
     )
 
 @lru_cache
@@ -135,6 +135,7 @@ def answer_query(query: str) -> RagAnswer:
             "contexto": contexto,
             "contacto_email": settings.contacto_email,
             "contacto_telefono": settings.contacto_telefono,
+            "enlace_calendario": settings.enlace_calendario,
         }
     )
 
