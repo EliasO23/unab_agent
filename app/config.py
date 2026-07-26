@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     cohere_api_key: str
     cohere_model: str = "command-a-03-2025"
 
+    # --- Groq ---
+    groq_api_key: str
+    groq_model: str = "llama-3.3-70b-versatile"
+
     # --- Embeddings ---
     embedding_model: str = "intfloat/multilingual-e5-small"
 

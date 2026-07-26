@@ -27,6 +27,7 @@ from typing import TypedDict
 from langchain_classic.retrievers import MultiQueryRetriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 from app.config import get_settings
 from app.core.classifier import classify_query, generate_greeting_response
@@ -57,19 +58,26 @@ def _get_gemini_llm() -> ChatGoogleGenerativeAI:
         temperature=0.1,
     )
 
+@lru_cache
+def _get_groq_llm() -> ChatGroq:
+    settings = get_settings()
+    return ChatGroq(
+        groq_api_key=settings.groq_api_key,
+        model_name=settings.groq_model,
+        temperature=0
+    )
 
 @lru_cache
 def _get_multi_retriever() -> MultiQueryRetriever:
     return MultiQueryRetriever.from_llm(
         retriever=get_base_retriever(),
-        llm=_get_gemini_llm(),
+        llm=_get_groq_llm(),
         prompt=MULTIQUERY_PROMPT,
     )
 
-
 @lru_cache
 def _get_response_chain():
-    return RESPONSE_PROMPT | _get_gemini_llm() | StrOutputParser()
+    return RESPONSE_PROMPT | _get_groq_llm() | StrOutputParser()
 
 def answer_query(query: str) -> RagAnswer:
     settings = get_settings()

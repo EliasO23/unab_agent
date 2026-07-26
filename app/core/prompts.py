@@ -39,7 +39,7 @@ estas tres categorías:
   personal no relacionada a la universidad, cultura general, etc.).
  
 Responde ÚNICAMENTE con una sola palabra, sin explicaciones ni puntuación:
-SALUDO, INSTITUCIONAL o FUERA_DE_ALCANCE.
+SALUDO, CAPACIDADES, INSTITUCIONAL o FUERA_DE_ALCANCE.
  
 Mensaje del usuario:
 {question}
