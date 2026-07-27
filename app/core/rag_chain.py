@@ -13,10 +13,10 @@ Flujo:
    - Si es FUERA_DE_ALCANCE -> se responde de inmediato con el mensaje
      fijo de fuera de alcance. Tampoco se ejecuta el multiquery.
    - Si es INSTITUCIONAL    -> continua el flujo normal (pasos 2-4).
-2. Multiquery (Gemini)           -> genera variaciones de la pregunta y
+2. Multiquery (Gemini o Groq)           -> genera variaciones de la pregunta y
    recupera fragmentos desde Pinecone usando el retriever base.
 3. Si no se recupera contexto    -> mensaje de "contexto insuficiente".
-4. Respuesta final (Gemini)      -> usando el prompt del asistente UNAB
+4. Respuesta final (Gemini o Groq)      -> usando el prompt del asistente UNAB
    con el contexto recuperado.
 """
 
@@ -112,7 +112,7 @@ def answer_query(query: str) -> RagAnswer:
             num_fragments=0,
         )
 
-    # --- 2. Multiquery + recuperación (Gemini + Pinecone) ---
+    # --- 2. Multiquery + recuperación (Gemini o Groq + Pinecone) ---
     fragmentos = _get_multi_retriever().invoke(query)
 
     if not fragmentos:
@@ -128,7 +128,7 @@ def answer_query(query: str) -> RagAnswer:
 
     contexto = "\n\n".join(fragmento.page_content for fragmento in fragmentos)
 
-    # --- 3. Respuesta final (Gemini) ---
+    # --- 3. Respuesta final (Gemini o Groq) ---
     resultado = _get_response_chain().invoke(
         {
             "query": query,

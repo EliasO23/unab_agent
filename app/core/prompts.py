@@ -99,7 +99,7 @@ Respuesta:
 )
 
 # ---------------------------------------------------------------------------
-# 2. Prompt de generación de sub-consultas para MultiQueryRetriever (Gemini)
+# 2. Prompt de generación de sub-consultas para MultiQueryRetriever (Gemini o Groq)
 # ---------------------------------------------------------------------------
 MULTIQUERY_PROMPT = PromptTemplate.from_template(
     """
@@ -127,7 +127,7 @@ Pregunta original:
 )
 
 # ---------------------------------------------------------------------------
-# 3. Prompt de respuesta final (Gemini)
+# 3. Prompt de respuesta final (Gemini o Groq)
 # ---------------------------------------------------------------------------
 RESPONSE_PROMPT = ChatPromptTemplate.from_messages(
     [
@@ -208,7 +208,7 @@ RESPONSE_PROMPT = ChatPromptTemplate.from_messages(
         explicado la información específica que el contexto respalda) el
         siguiente texto exactamente como se indica, sin modificarlo:
 
-        "Verifica el calendario academico, correspondiente:
+        "Verifica el calendario academico:
         - [Calendario Academico]({enlace_calendario})"
 
         No agregues este texto si la consulta no está relacionada con el

@@ -55,7 +55,7 @@ El sistema combina:
 - Un **clasificador de intención** (Cohere) que filtra preguntas fuera del
   alcance institucional antes de gastar recursos en la búsqueda.
 - Un **generador de sub-consultas (multiquery)** y un **LLM de respuesta**
-  (Gemini) que redactan la respuesta final citando el reglamento y artículo
+  (Groq) que redactan la respuesta final citando el reglamento y artículo
   correspondiente cuando aplica.
 - Una **landing institucional** con un widget de chat flotente, servidos
   ambos desde el mismo backend en FastAPI.
@@ -72,7 +72,7 @@ Usuario escribe una pregunta
                                │                     │
                                │ No                  │ Sí
                                ▼                     ▼
-                  Mensaje "fuera de alcance"    2) MultiQueryRetriever (Gemini)
+                  Mensaje "fuera de alcance"    2) MultiQueryRetriever (Groq)
                   (no se gasta token en             genera 5 variaciones de la
                   multiquery ni se consulta        pregunta y recupera fragmentos
                   el vector store)                 desde Pinecone
@@ -81,7 +81,7 @@ Usuario escribe una pregunta
                                             │                │
                                             No                Sí
                                             ▼                ▼
-                                    Mensaje "contexto     3) Respuesta final (Gemini)
+                                    Mensaje "contexto     3) Respuesta final (Groq)
                                     insuficiente" +          con el prompt institucional
                                     datos de contacto        y el contexto recuperado
 
@@ -136,7 +136,7 @@ Es el núcleo del agente, ubicado en `app/core/`. Se compone de cuatro
 módulos que colaboran entre sí:
  
 - **`prompts.py`** — contiene las tres plantillas de prompt del sistema: el
-  prompt de clasificación (institucional / fuera de alcance), el prompt de
+  prompt de clasificación (saludo, capacidades, institucional o fuera de alcance), el prompt de
   generación de sub-consultas para el multiquery, y el prompt de respuesta
   final con el rol, tono, protocolo empático y reglas de formato del
   agente institucional. No ejecuta lógica, solo define texto
@@ -151,10 +151,10 @@ módulos que colaboran entre sí:
   multiquery.
 - **`rag_chain.py`** — es el orquestador central: recibe la pregunta del
   usuario desde la API, invoca al clasificador, y solo si la pregunta es
-  institucional continúa con el `MultiQueryRetriever` (que usa Gemini para
+  institucional continúa con el `MultiQueryRetriever` (que usa Groq para
   generar cinco variaciones de la pregunta y así recuperar más fragmentos
   relevantes desde Pinecone). Con los fragmentos recuperados, arma el
-  contexto y se lo pasa al LLM de respuesta (Gemini) junto con el prompt
+  contexto y se lo pasa al LLM de respuesta (Groq) junto con el prompt
   institucional, devolviendo la respuesta final junto con metadatos
   (clasificación resultante, si se usó multiquery, cantidad de fragmentos
   recuperados).
@@ -163,10 +163,10 @@ módulos que colaboran entre sí:
 Son los sistemas de terceros que la capa de orquestación consume:
  
 - **Cohere** — recibe únicamente la pregunta del usuario y el prompt de
-  clasificación; responde con una palabra (`INSTITUCIONAL` o
+  clasificación; responde con una palabra (`SALUDO`, `CAPACIDADES`, `INSTITUCIONAL` o
   `FUERA_DE_ALCANCE`). Es la única llamada a un LLM que ocurre siempre, sin
   excepción, en cada consulta.
-- **Google Gemini** — se invoca dos veces por consulta institucional: una
+- **Groq** — se invoca dos veces por consulta institucional: una
   primera vez para generar las cinco sub-consultas del multiquery, y una
   segunda vez para redactar la respuesta final con el contexto ya
   recuperado.
@@ -196,8 +196,8 @@ del servidor ni en cada consulta de un usuario.
 | Chunking | **langchain-experimental** (`SemanticChunker`) | Fragmentación semántica de documentos |
 | Embeddings | **langchain-huggingface** + `intfloat/multilingual-e5-small` | Vectorización de texto para búsqueda semántica |
 | Base vectorial | **Pinecone** (`langchain-pinecone`) | Almacenamiento e indexación de fragmentos |
-| Clasificación | **Cohere** (`langchain-cohere`, modelo `command-a-03-2025`) | Filtro de intención institucional / fuera de alcance |
-| Generación | **Google Gemini** (`langchain-google-genai`, modelo `gemini-2.5-flash`) | Generación de sub-consultas (multiquery) y respuesta final |
+| Clasificación | **Cohere** (`langchain-cohere`, modelo `command-a-03-2025`) | Filtro de intención saludo, capacidades, institucional o fuera de alcance |
+| Generación | **Groq** (`langchain-groq`, modelo `llama-3.3-70b-versatile`) | Generación de sub-consultas (multiquery) y respuesta final |
 | Configuración | **pydantic-settings** | Carga de variables de entorno tipadas |
 | Carga de documentos | **pypdf** | Extracción de texto desde PDF |
 | Frontend | HTML / CSS / JavaScript (sin frameworks) + **marked.js** | Landing institucional y widget de chat, renderizado de Markdown |
@@ -244,7 +244,7 @@ unab-rag-agent/
  
 - Python 3.11+
 - Cuentas y API keys activas de: [Pinecone](https://www.pinecone.io/),
-  [Google AI Studio](https://aistudio.google.com/) (Gemini) y
+  [Groq](https://groq.com/) (Groq) y
   [Cohere](https://cohere.com/).
 - Un índice ya creado en Pinecone (dimensión acorde al modelo de embeddings
   `intfloat/multilingual-e5-small`, 384 dimensiones).
@@ -252,7 +252,7 @@ unab-rag-agent/
  
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/unab-rag-agent.git
+git clone https://github.com/EliasO23/unab_agent.git
 cd unab-rag-agent
  
 # 2. Crear y activar entorno virtual
@@ -264,7 +264,7 @@ pip install -r requirements.txt
  
 # 4. Configurar variables de entorno
 cp .env.example .env
-# Editar .env con tus API keys reales (Pinecone, Gemini, Cohere)
+# Editar .env con tus API keys reales (Pinecone, Groq, Cohere)
  
 # 5. Levantar el servidor en modo desarrollo
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
@@ -477,9 +477,9 @@ basado en similitud semántica.
   embeddings y los LLM se instancian una sola vez por proceso y se
   precargan en el evento `startup` de FastAPI, para que la primera petición
   real no pague el costo de inicialización.
-- **Cohere solo para clasificación, Gemini para multiquery y respuesta:**
+- **Cohere solo para clasificación, Groq para multiquery y respuesta:**
   permite usar un modelo más económico para la decisión binaria
-  "institucional / fuera de alcance" y reservar Gemini para las tareas que
+  "saludo, capacidades, institucional o fuera de alcance" y reservar Groq para las tareas que
   requieren mayor calidad de generación.
 - **Fail-open del clasificador:** ante una respuesta ambigua del LLM de
   clasificación, se asume que la consulta sí es institucional, para no
